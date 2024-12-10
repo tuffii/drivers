@@ -1,21 +1,3 @@
-/*++
-Copyright (c) 1997  Microsoft Corporation
-
-Module Name:
-
-    kbfilter.h
-
-Abstract:
-
-    This module contains the common private declarations for the keyboard
-    packet filter
-
-Environment:
-
-    kernel mode only
-
---*/
-
 #ifndef KBFILTER_H
 #define KBFILTER_H
 
@@ -38,6 +20,8 @@ Environment:
 
 #include "public.h"
 
+#define MAX_KEY_MAPPINGS 128
+
 #define KBFILTER_POOL_TAG (ULONG) 'tlfK'
 
 #if DBG
@@ -46,7 +30,7 @@ Environment:
 
 #define DebugPrint(_x_) DbgPrint _x_
 
-#else   // DBG
+#else
 
 #define TRAP()
 
@@ -56,53 +40,33 @@ Environment:
 
 #define MIN(_A_,_B_) (((_A_) < (_B_)) ? (_A_) : (_B_))
 
-typedef struct _DEVICE_EXTENSION
-{
+typedef struct _KEY_MAPPING {
+    UCHAR OriginalKey;
+    UCHAR MappedKey;
+} KEY_MAPPING, *PKEY_MAPPING;
+
+#define MAX_KEY_MAPPINGS 256 // Максимальное количество маппингов
+
+// Глобальная структура для хранения маппингов
+static struct {
+    KEY_MAPPING KeyMappings[MAX_KEY_MAPPINGS];
+    size_t KeyMappingsCount;
+} GlobalKeyMappingStorage = { 0 };
+
+typedef struct _DEVICE_EXTENSION {
     WDFDEVICE WdfDevice;
-
-    //
-    // Queue for handling requests that come from the rawPdo
-    //
     WDFQUEUE rawPdoQueue;
-
-    //
-    // Number of creates sent down
-    //
     LONG EnableCount;
-
-    //
-    // The real connect data that this driver reports to
-    //
     CONNECT_DATA UpperConnectData;
-
-    //
-    // Previous initialization and hook routines (and context)
-    //
     PVOID UpperContext;
     PI8042_KEYBOARD_INITIALIZATION_ROUTINE UpperInitializationRoutine;
     PI8042_KEYBOARD_ISR UpperIsrHook;
-
-    //
-    // Write function from within KbFilter_IsrHook
-    //
     IN PI8042_ISR_WRITE_PORT IsrWritePort;
-
-    //
-    // Queue the current packet (ie the one passed into KbFilter_IsrHook)
-    //
     IN PI8042_QUEUE_PACKET QueueKeyboardPacket;
-
-    //
-    // Context for IsrWritePort, QueueKeyboardPacket
-    //
     IN PVOID CallContext;
-
-    //
-    // Cached Keyboard Attributes
-    //
     KEYBOARD_ATTRIBUTES KeyboardAttributes;
-
 } DEVICE_EXTENSION, *PDEVICE_EXTENSION;
+
 
 WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(DEVICE_EXTENSION,
                                         FilterGetData)
@@ -117,9 +81,6 @@ typedef struct _WORKER_ITEM_CONTEXT {
 
 WDF_DECLARE_CONTEXT_TYPE_WITH_NAME(WORKER_ITEM_CONTEXT, GetWorkItemContext)
 
-//
-// Prototypes
-//
 DRIVER_INITIALIZE DriverEntry;
 
 EVT_WDF_DRIVER_DEVICE_ADD KbFilter_EvtDeviceAdd;
@@ -158,11 +119,6 @@ KbFilter_ServiceCallback(
 EVT_WDF_REQUEST_COMPLETION_ROUTINE
 KbFilterRequestCompletionRoutine;
 
-
-//
-// IOCTL Related defintions
-//
-
 //
 // Used to identify kbfilter bus. This guid is used as the enumeration string
 // for the device id.
@@ -182,10 +138,6 @@ typedef struct _RPDO_DEVICE_DATA
 {
 
     ULONG InstanceNo;
-
-    //
-    // Queue of the parent device we will forward requests to
-    //
     WDFQUEUE ParentQueue;
 
 } RPDO_DEVICE_DATA, *PRPDO_DEVICE_DATA;
@@ -201,6 +153,4 @@ KbFiltr_CreateRawPdo(
 
 
 
-#endif  // KBFILTER_H
-
-
+#endif

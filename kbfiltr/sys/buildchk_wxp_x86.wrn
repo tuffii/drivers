@@ -1,0 +1,6 @@
+ERROR - "z:\kbfltr\kbfiltr\sys" file time is slightly in the future (0x1db4b0012ccc94c (12/10/2024 12:36:02) vs. 0x1db4b0012c20c5a (12/10/2024 12:36:02)).
+
+1>warnings in directory z:\kbfltr\kbfiltr\sys
+1>z:\kbfltr\kbfiltr\sys\kbfiltr.h(48) : warning C4005: 'MAX_KEY_MAPPINGS' : macro redefinition
+1>z:\kbfltr\kbfiltr\sys\kbfiltr.c(139) : warning C4133: '=' : incompatible types - from 'WDF_POINTER_TYPE_RPDO_DEVICE_DATA' to 'PDEVICE_EXTENSION'
+1>z:\kbfltr\kbfiltr\sys\kbfiltr.h(48) : warning C4005: 'MAX_KEY_MAPPINGS' : macro redefinition

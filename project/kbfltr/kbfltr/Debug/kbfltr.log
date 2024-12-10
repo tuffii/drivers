@@ -1,0 +1,4 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v150\Platforms\Win32\PlatformToolsets\v141_xp\Toolset.targets(39,5): warning MSB8051: поддержка Windows XP прекращена, ее не будет в последующих выпусках Visual Studio. Дополнительные сведения: https://go.microsoft.com/fwlink/?linkid=2023588.
+  kbfltr.cpp
+c:\users\rudi1\onedrive\рабочий стол\123\project\kbfltr\kbfltr\kbfltr.cpp(104): warning C4101: mappings: неиспользованная локальная переменная
+  kbfltr.vcxproj -> C:\Users\rudi1\OneDrive\Рабочий стол\123\project\kbfltr\Debug\kbfltr.exe
