@@ -1,0 +1,28 @@
+BUILD: Compile and Link for x86
+BUILD: Loading c:\winddk\7600.16385.0\build.dat...
+BUILD: Computing Include file dependencies:
+BUILD: Start time: Sun Dec 01 18:47:06 2024
+BUILD: Examining z:\temp_kbfltr_1\kbfiltr\sys directory for files to compile.
+    z:\temp_kbfltr_1\kbfiltr\sys 
+Invalidating OACR warning log for 'root:x86chk'
+BUILD: Saving c:\winddk\7600.16385.0\build.dat...
+BUILD: Building generated files in z:\temp_kbfltr_1\kbfiltr\sys directory
+Configuring OACR for 'root:x86chk' - <OACR on>
+_NT_TARGET_VERSION SET TO WINXP
+BUILD: Examining z:\temp_kbfltr_1\kbfiltr\sys directory for files to compile. (2nd Pass)
+    z:\temp_kbfltr_1\kbfiltr\sys 
+BUILD: Compiling and Linking z:\temp_kbfltr_1\kbfiltr\sys directory
+_NT_TARGET_VERSION SET TO WINXP
+Compiling - kbfiltr.c
+1>errors in directory z:\temp_kbfltr_1\kbfiltr\sys
+1>z:\temp_kbfltr_1\kbfiltr\sys\kbfiltr.c(134) : error C2065: 'inputBuffer' : undeclared identifier
+1>z:\temp_kbfltr_1\kbfiltr\sys\kbfiltr.c(134) : error C2065: 'bufferLength' : undeclared identifier
+1>z:\temp_kbfltr_1\kbfiltr\sys\kbfiltr.c(139) : error C2065: 'bufferLength' : undeclared identifier
+1>z:\temp_kbfltr_1\kbfiltr\sys\kbfiltr.c(139) : error C2065: 'inputBuffer' : undeclared identifier
+Linking Executable - objchk_wxp_x86\i386\kbfiltr.sys
+1>link : error LNK1181: cannot open input file 'z:\temp_kbfltr_1\kbfiltr\sys\objchk_wxp_x86\i386\kbfiltr.obj'
+BUILD: Finish time: Sun Dec 01 18:47:07 2024
+BUILD: Done
+
+    3 files compiled - 3 Warnings - 4 Errors - 500 LPS
+    1 executable built - 1 Error

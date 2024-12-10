@@ -50,6 +50,31 @@ DEFINE_GUID(GUID_DEVINTERFACE_KBFILTER,
 // {3FB7299D-6847-4490-B0C9-99E0986AB886}
 
 
+void SendMessageToDriver(const char* devicePath, const char* message) {
+    HANDLE file = CreateFile(devicePath, GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+    if (file == INVALID_HANDLE_VALUE) {
+        printf("Failed to open device: %x\n", GetLastError());
+        return;
+    }
+
+    DWORD bytesReturned;
+    if (!DeviceIoControl(file,
+                         IOCTL_KBFILTR_WRITE_MESSAGE,
+                         (void*)message,
+                         (DWORD)strlen(message) + 1,
+                         NULL,
+                         0,
+                         &bytesReturned,
+                         NULL)) {
+        printf("DeviceIoControl failed: %x\n", GetLastError());
+    } else {
+        printf("Message sent successfully.\n");
+    }
+
+    CloseHandle(file);
+}
+
+
 int
 _cdecl
 main(
@@ -90,6 +115,7 @@ main(
 
     printf("\nList of KBFILTER Device Interfaces\n");
     printf("---------------------------------\n");
+    SendMessageToDriver(deviceInterfaceDetailData->DevicePath, "----------------Hello, driver!-------------");
 
     i = 0;
 
